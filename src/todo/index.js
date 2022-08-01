@@ -40,7 +40,7 @@ export default function Task() {
 
   return (
     <>
-      <div className="h-screen w-full overflow-hidden flex flex-col gap-4 p-4 bg-slate-100">
+      <div className="h-screen w-full overflow-hidden flex flex-col gap-4 p-4">
         <div className="flex flex-wrap justify-between items-center gap-4">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
             Back End Developer
@@ -56,7 +56,7 @@ export default function Task() {
           </div>
         </div>
         <div className="flex flex-1 overflow-x-auto space-x-4 snap-x snap-mandatory">
-          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
+          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center rounded-lg bg-slate-50 border shadow">
             <div className="text-sm font-semibold">To Do</div>
             <div className="h-full flex flex-col gap-2 rounded">
               {todos.map(
@@ -144,7 +144,7 @@ export default function Task() {
               )}
             </div>
           </div>
-          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
+          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center rounded-lg bg-slate-50 border shadow">
             <div className="text-sm font-semibold">In Progress</div>
             <div className="h-full flex flex-col gap-2 rounded">
               {todos.map(
@@ -232,7 +232,7 @@ export default function Task() {
               )}
             </div>
           </div>
-          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
+          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center rounded-lg bg-slate-50 border shadow">
             <div className="text-sm font-semibold">Review</div>
             <div className="h-full flex flex-col gap-2 rounded">
               {todos.map(
@@ -320,7 +320,7 @@ export default function Task() {
               )}
             </div>
           </div>
-          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
+          <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center rounded-lg bg-slate-50 border shadow">
             <div className="text-sm font-semibold">Review</div>
             <div className="h-full flex flex-col gap-2 rounded">
               {todos.map(
