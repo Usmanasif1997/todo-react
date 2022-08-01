@@ -16,8 +16,6 @@ export default function Task() {
   let [todo, setTodo] = useState(null);
   let [todos, setTodos] = useState([]);
   let [todoEditing, setTodoEditing] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("todos"));
@@ -40,45 +38,13 @@ export default function Task() {
     });
   }
 
-  //   SEARCH
-
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  useEffect(() => {
-    // console.log("check Todo", todos);
-    const results = todos.filter((todo) => {
-      return todo.title.toLowerCase().includes(searchTerm);
-    });
-    if (searchTerm.length > 0) {
-      console.log(results);
-      setSearchResults(results);
-    } else {
-      console.log(todos);
-      setSearchResults(todos);
-    }
-  }, [searchTerm]);
-
   return (
     <>
       <div className="h-screen w-full overflow-hidden flex flex-col gap-4 p-4 bg-slate-100">
-        <div className="flex justify-between items-center gap-4">
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              name="search"
-              id="search"
-              value={searchTerm}
-              onChange={handleChange}
-              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 text-sm border-gray-300 rounded-md"
-            />
-            <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-              <kbd className="inline-flex items-center border border-gray-200 rounded px-2 text-sm font-sans font-medium text-gray-400">
-                ⌘K
-              </kbd>
-            </div>
-          </div>
+        <div className="flex flex-wrap justify-between items-center gap-4">
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+            Back End Developer
+          </h2>
           <div>
             <button
               onClick={() => setOpen(true)}
@@ -89,11 +55,11 @@ export default function Task() {
             </button>
           </div>
         </div>
-        <div className="flex flex-1 overflow-x-auto space-x-4 snap-x">
+        <div className="flex flex-1 overflow-x-auto space-x-4 snap-x snap-mandatory">
           <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
             <div className="text-sm font-semibold">To Do</div>
             <div className="h-full flex flex-col gap-2 rounded">
-              {searchResults.map(
+              {todos.map(
                 (todo) =>
                   todo.status === "To Do" && (
                     <div
@@ -181,7 +147,7 @@ export default function Task() {
           <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
             <div className="text-sm font-semibold">In Progress</div>
             <div className="h-full flex flex-col gap-2 rounded">
-              {searchResults.map(
+              {todos.map(
                 (todo) =>
                   todo.status === "In Progress" && (
                     <div
@@ -269,7 +235,7 @@ export default function Task() {
           <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
             <div className="text-sm font-semibold">Review</div>
             <div className="h-full flex flex-col gap-2 rounded">
-              {searchResults.map(
+              {todos.map(
                 (todo) =>
                   todo.status === "Review" && (
                     <div
@@ -357,7 +323,7 @@ export default function Task() {
           <div className="w-80 flex-shrink-0 h-full p-2 flex flex-col gap-2 snap-center border-2 border-dotted border-indigo-300 rounded-lg">
             <div className="text-sm font-semibold">Review</div>
             <div className="h-full flex flex-col gap-2 rounded">
-              {searchResults.map(
+              {todos.map(
                 (todo) =>
                   todo.status === "Done" && (
                     <div
