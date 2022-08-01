@@ -1,31 +1,42 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
-export default function AddTodoModal() {
-  const [open, setOpen] = useState(true);
-  const [todos, setTodos] = useState([]);
-
+export default function AddTodoModal(props) {
+  // console.log(props.todo);
+  console.log(props.open);
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     reset,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    todos.push(data);
+    data.id = uuidv4();
+
+    props.todos.push(data);
+
     reset();
-    localStorage.setItem("todos", JSON.stringify(todos));
-    setTodos([...todos]);
+    localStorage.setItem("todos", JSON.stringify(props.todos));
+    props.setTodos([...props.todos]);
   };
 
-  console.log("Todo", todos);
+  useEffect(() => {
+    console.log("dsfsfsdsdsf");
+    reset(props.todo);
+  }, [props.todo]);
+
+
+
+
+  // console.log("Todo", props.todos);
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+    <Transition.Root show={props.open} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={props.setOpen}>
         <div className="fixed inset-0" />
 
         <div className="fixed inset-0 overflow-hidden">
@@ -56,7 +67,7 @@ export default function AddTodoModal() {
                             <button
                               type="button"
                               className="rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                              onClick={() => setOpen(false)}
+                              onClick={() => props.setOpen(false)}
                             >
                               <span className="sr-only">Close panel</span>
                               <XIcon className="h-6 w-6" aria-hidden="true" />
@@ -134,30 +145,7 @@ export default function AddTodoModal() {
                                 />
                               </div>
                             </div>
-                            <div>
-                              <label
-                                htmlFor="priority"
-                                className="block text-sm font-medium text-gray-900"
-                              >
-                                {" "}
-                                Priority{" "}
-                              </label>
-                              <div className="mt-1">
-                                <select
-                                  id="priority"
-                                  name="priority"
-                                  className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                  defaultValue="Low"
-                                  {...register("priority", {
-                                    required: true,
-                                  })}
-                                >
-                                  <option>High</option>
-                                  <option>Medium</option>
-                                  <option>Low</option>
-                                </select>
-                              </div>
-                            </div>
+
                             <div>
                               <label
                                 htmlFor="status"
@@ -191,7 +179,7 @@ export default function AddTodoModal() {
                       <button
                         type="button"
                         className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        onClick={() => setOpen(false)}
+                        onClick={() => props.setOpen(false)}
                       >
                         Cancel
                       </button>
