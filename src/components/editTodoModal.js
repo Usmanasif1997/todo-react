@@ -4,24 +4,37 @@ import { XIcon } from "@heroicons/react/outline";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
-export default function AddTodoModal(props) {
-  console.log(props.open);
+export default function EditModalTodo(props) {
+  console.log(props.todo);
   const {
     register,
     handleSubmit,
+    // watch,
     reset,
+    // formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    data.id = uuidv4();
-    props.todos.push(data);
-    localStorage.setItem("todos", JSON.stringify(props.todos));
-    props.setTodos([...props.todos]);
-    reset();
+    const updatedTodos = props.todos.map((todo) => {
+      if (props.todo.id === todo.id) {
+        todo = { ...data, id: props.todo.id };
+      }
+      return todo;
+    });
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    props.setTodos(updatedTodos);
+    props.setOpenEdit(false);
   };
 
+  useEffect(() => {
+    console.log("dsfsfsdsdsf");
+    reset(props.todo);
+  }, [props.todo]);
+
+  // console.log("Todo", props.todos);
+
   return (
-    <Transition.Root show={props.open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={props.setOpen}>
+    <Transition.Root show={props.openEdit} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={props.setOpenEdit}>
         <div className="fixed inset-0" />
 
         <div className="fixed inset-0 overflow-hidden">
@@ -52,7 +65,7 @@ export default function AddTodoModal(props) {
                             <button
                               type="button"
                               className="rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                              onClick={() => props.setOpen(false)}
+                              onClick={() => props.setOpenEdit(false)}
                             >
                               <span className="sr-only">Close panel</span>
                               <XIcon className="h-6 w-6" aria-hidden="true" />
@@ -164,7 +177,7 @@ export default function AddTodoModal(props) {
                       <button
                         type="button"
                         className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        onClick={() => props.setOpen(false)}
+                        onClick={() => props.setOpenEdit(false)}
                       >
                         Cancel
                       </button>

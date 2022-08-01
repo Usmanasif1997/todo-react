@@ -4,17 +4,19 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
 import { ClockIcon } from "@heroicons/react/outline";
+import EditModalTodo from "../components/editTodoModal";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Task() {
-  const [open, setOpen] = useState(false);
+  let [open, setOpen] = useState(false);
+  let [openEdit, setOpenEdit] = useState(false);
   let [todo, setTodo] = useState(null);
-  const [todos, setTodos] = useState([]);
-  const [todoEditing, setTodoEditing] = useState(null);
-  const [editingText, setEditingText] = useState("");
+  let [todos, setTodos] = useState([]);
+  let [todoEditing, setTodoEditing] = useState(null);
+  let [editingText, setEditingText] = useState("");
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("todos"));
@@ -27,31 +29,14 @@ export default function Task() {
     setTodos(updatedTodos);
   }
 
-  function createNewTodo() {
-    todo = null;
-    setTodo(todo);
-    setOpen(true);
-  }
-
   function submitEdits(id) {
-    const updatedTodos = [...todos].map((todo) => {
+   [...todos].map((todo) => {
       if (todo.id === id) {
-        // console.log("helo testing");
-
-        setTodo({
-          title: todo.title,
-          description: todo.description,
-          dueDate: todo.dueDate,
-          status: todo.status,
-        });
-
-        setOpen(true);
+        setTodo(todo);
+        setOpenEdit(true);
       }
       return todo;
     });
-    setTodos(updatedTodos);
-    setTodoEditing(null);
-    // console.log(todo)
   }
 
   return (
@@ -73,7 +58,7 @@ export default function Task() {
           </div>
           <div>
             <button
-              onClick={() => createNewTodo()}
+              onClick={() => setOpen(true)}
               type="button"
               className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
@@ -174,6 +159,12 @@ export default function Task() {
         setTodos={setTodos}
         open={open}
         setOpen={setOpen}
+      />
+      <EditModalTodo
+        todos={todos}
+        setTodos={setTodos}
+        openEdit={openEdit}
+        setOpenEdit={setOpenEdit}
         todoEditing={todoEditing}
         todo={todo}
         setTodo={setTodo}
